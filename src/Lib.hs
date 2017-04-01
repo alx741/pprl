@@ -1,24 +1,28 @@
 module Lib
     ( Project
     , Task(..)
-    , Successor(..)
-    , getSuccessor
+    , Index(..)
+    , Span
+    , index
     ) where
 
-import Data.Vector as V
+import qualified Data.Vector as V
+import qualified Data.Map.Strict as M
 
-type Project = V.Vector Task
+type Project = M.Map Index Task
+
+type Span = Int
 
 data Task = Task
-    { allocated :: Bool
-    , span :: Int
-    , resources :: Int
-    , successors :: [Successor]
+    { taskAllocated :: Bool
+    , taskSpan :: Span
+    , taskResources :: Int
+    , taskSuccessors :: [Index]
     } deriving (Show, Read)
 
-newtype Successor =
-    Successor Int
-    deriving (Show, Read)
+newtype Index =
+    Index Int
+    deriving (Show, Read, Ord, Eq)
 
-getSuccessor :: Successor -> Int
-getSuccessor (Successor n) = n-1
+index :: Index -> Int
+index (Index n) = n-1

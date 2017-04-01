@@ -18,6 +18,7 @@ library
   exposed-modules:     Lib
   build-depends:       base >= 4.7 && < 5
                      , vector
+                     , containers
   default-language:    Haskell2010
 
 executable pprl-exe
@@ -27,6 +28,7 @@ executable pprl-exe
   build-depends:       base
                      , pprl
                      , vector
+                     , containers
   default-language:    Haskell2010
 
 test-suite pprl-test
