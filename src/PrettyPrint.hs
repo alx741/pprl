@@ -4,10 +4,10 @@ module PrettyPrint
     , showProjectIO
     ) where
 
-import qualified Data.Map.Strict as M
+import Control.Monad
 import Lib
 import Rainbow
-import Control.Monad
+import qualified Data.Map.Strict as M
 
 showTaskDebug :: Index -> Task -> String
 showTaskDebug i t =

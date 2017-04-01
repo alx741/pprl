@@ -1,12 +1,12 @@
 module Main where
 
+import DataSet
 import Lib
 import PrettyPrint
 import qualified Data.Map.Strict as M
 
 main :: IO ()
 main = do
-    -- putStrLn $ showProject 8 $ plan project
     showProjectIO 8 $ plan project
 
 

@@ -1,10 +1,10 @@
 module DataSet where
 
 import Lib
+import System.Exit
 import Text.Megaparsec
 import Text.Megaparsec.String
 import qualified Data.Map.Strict as M
-import System.Exit
 
 readData :: FilePath -> IO (Int, Project)
 readData fp = do
