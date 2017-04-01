@@ -5,7 +5,6 @@ module Lib
     , Span
     , plan
     , maxSpan
-    , index
     ) where
 
 import qualified Data.Map.Strict as M
@@ -30,8 +29,7 @@ instance Ord Task where
         | taskSpan t1 <= taskSpan t2 = LT
         | taskSpan t1 >= taskSpan t2 = GT
 
-newtype Index =
-    Index Int
+newtype Index = Index { getIndex :: Int }
     deriving (Show, Read, Ord, Eq)
 
 maxSpan :: Project -> Span
@@ -62,6 +60,3 @@ applyTask (Task _ span _ indexes) p = foldr calcSuccessor p indexes
             (taskSpan task + span)
             (taskResources task)
             (taskSuccessors task)
-
-index :: Index -> Int
-index (Index int) = int

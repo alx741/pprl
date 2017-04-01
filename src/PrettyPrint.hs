@@ -9,7 +9,7 @@ import Lib
 showTask :: Index -> Task -> String
 showTask i t =
     "Tarea " ++
-    (show $ index i) ++
+    (show $ getIndex i) ++
     "\n|_________Finaliza el día: " ++ (show $ taskSpan t) ++ "\n\n"
 
 showProject :: Project -> String
