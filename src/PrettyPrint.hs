@@ -69,6 +69,6 @@ showTaskIO maxRes i t = do
     if taskResources t > maxRes
         then do
             putStr $ "|_________Recursos necesarios: " ++ (show $ taskResources t)
-            putChunkLn $ chunk "  [!] Conflicto de recursos" & fore red
+            putChunkLn $ chunk "  [!] Conflicto de recursos\n" & fore red
         else putStrLn $ "|_________Recursos necesarios: " ++
-            (show $ taskResources t) ++ "\n\n"
+            (show $ taskResources t) ++ "\n"

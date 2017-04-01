@@ -24,6 +24,7 @@ library
                      , mtl
                      , rainbow
                      , megaparsec
+                     , safe
   default-language:    Haskell2010
 
 executable pprl-exe
@@ -35,6 +36,7 @@ executable pprl-exe
                      , vector
                      , containers
                      , mtl
+                     , safe
   default-language:    Haskell2010
 
 test-suite pprl-test
