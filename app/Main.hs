@@ -3,33 +3,38 @@ module Main where
 import Lib
 import qualified Data.Vector as V
 import qualified Data.Map.Strict as M
+import Control.Monad.State.Strict
 import Debug.Trace
 
 main :: IO ()
-main = print "main"
+main = print $ plan (M.size project) 1 project
 
-total :: Project -> Project
--- total p = M.foldr calc p p
-total pro = fun 11 $ fun 10 $ fun 9 $ fun 8 $ fun 7 $ fun 6 $ fun 5 $ fun 4 $ fun 3 $ fun 2 $ fun 1 pro
-    where fun = (\i p -> calc (p M.! (Index i)) p)
 
-calc :: Task -> Project -> Project
-calc (Task _ span _ indexes) p = foldr calcOne p indexes
+plan :: Int -> Int -> Project -> Project
+plan max n project
+    | n == max = project
+    | otherwise = plan max (n+1) $ applyTask task project
     where
-        calcOne index p =
+        task = project M.! (Index n)
+
+applyTask :: Task -> Project -> Project
+applyTask (Task _ span _ indexes) p = foldr calcSuccessor p indexes
+    where
+        calcSuccessor :: Index -> Project -> Project
+        calcSuccessor index p =
             let task' = allocateTask (p M.! index) span
             in M.insert index task' p
 
-getTasks :: Project -> [Index] -> [Task]
-getTasks p = fmap (p M.!)
+        allocateTask :: Task -> Span -> Task
+        allocateTask task@(Task True _ _ _) _ = task
+        allocateTask task span = Task
+            True
+            (taskSpan task + span)
+            (taskResources task)
+            (taskSuccessors task)
 
-allocateTask :: Task -> Span -> Task
-allocateTask task@(Task True _ _ _) _ = task
-allocateTask task span = Task
-    True
-    (taskSpan task + span)
-    (taskResources task)
-    (taskSuccessors task)
+
+
 
 project :: Project
 project = M.fromList testProject
