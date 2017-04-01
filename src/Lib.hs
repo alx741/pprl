@@ -4,6 +4,7 @@ module Lib
     , Index(..)
     , Span
     , plan
+    , maxSpan
     ) where
 
 import qualified Data.Vector as V
@@ -20,9 +21,21 @@ data Task = Task
     , taskSuccessors :: [Index]
     } deriving (Show, Read)
 
+instance Eq Task where
+    (==) t1 t2 = taskSpan t1 == taskSpan t2
+
+instance Ord Task where
+    compare t1 t2
+        | taskSpan t1 == taskSpan t2 = EQ
+        | taskSpan t1 <= taskSpan t2 = LT
+        | taskSpan t1 >= taskSpan t2 = GT
+
 newtype Index =
     Index Int
     deriving (Show, Read, Ord, Eq)
+
+maxSpan :: Project -> Span
+maxSpan p = taskSpan $ maximum $ fmap snd $ M.toList $ plan p
 
 plan :: Project -> Project
 plan project = applyPlan (M.size project) 1 project

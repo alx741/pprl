@@ -5,7 +5,11 @@ import qualified Data.Vector as V
 import qualified Data.Map.Strict as M
 
 main :: IO ()
-main = print $ plan project
+main = do
+    let result = plan project
+    -- putStrLn $ show result
+    putStrLn $ show $ maxSpan result
+
 
 project :: Project
 project = M.fromList testProject
