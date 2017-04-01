@@ -21,6 +21,7 @@ library
                      , vector
                      , containers
                      , mtl
+                     , rainbow
   default-language:    Haskell2010
 
 executable pprl-exe

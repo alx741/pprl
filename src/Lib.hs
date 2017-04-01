@@ -33,10 +33,13 @@ newtype Index = Index { getIndex :: Int }
     deriving (Show, Read, Ord, Eq)
 
 maxSpan :: Project -> Span
-maxSpan p = taskSpan $ maximum $ fmap snd $ M.toList $ plan p
+maxSpan p = taskSpan $ maximum $ fmap snd $ M.toList $ planTime p
 
 plan :: Project -> Project
-plan project = applyPlan (M.size project) 1 project
+plan p = planTime $ planRes p
+
+planTime :: Project -> Project
+planTime project = applyPlan (M.size project) 1 project
     where
         applyPlan :: Int -> Int -> Project -> Project
         applyPlan max n p
@@ -46,7 +49,7 @@ plan project = applyPlan (M.size project) 1 project
                 in applyPlan max (n+1) $ applyTask task p
 
 applyTask :: Task -> Project -> Project
-applyTask (Task _ span _ indexes) p = foldr calcSuccessor p indexes
+applyTask task@(Task _ span _ indexes) p = foldr calcSuccessor p indexes
     where
         calcSuccessor :: Index -> Project -> Project
         calcSuccessor index p =
@@ -60,3 +63,29 @@ applyTask (Task _ span _ indexes) p = foldr calcSuccessor p indexes
             (taskSpan task + span)
             (taskResources task)
             (taskSuccessors task)
+
+planRes :: Project -> Project
+planRes project = applyPlan (M.size project) 1 project
+    where
+        applyPlan :: Int -> Int -> Project -> Project
+        applyPlan max n p
+            | n == max = p
+            | otherwise =
+                let task = p M.! Index n
+                in applyPlan max (n+1) $ calcRes task p
+
+        calcRes :: Task -> Project -> Project
+        calcRes task@(Task _ _ _ (i:indexes)) p =
+            allocateRes (i:indexes) 0 p
+
+        allocateRes :: [Index] -> Int -> Project -> Project
+        allocateRes [] _ p = p
+        allocateRes (i:is) res p =
+            let task = p M.! i
+                res' = taskResources task + res
+                task' = Task
+                    False
+                    (taskSpan task)
+                    (res')
+                    (taskSuccessors task)
+            in M.insert i task' $ allocateRes is res' p
