@@ -3,12 +3,9 @@ module Main where
 import Lib
 import qualified Data.Vector as V
 import qualified Data.Map.Strict as M
-import Control.Monad.State.Strict
-import Debug.Trace
 
 main :: IO ()
-main = print $ plan (M.size project) 1 project
-
+main = print $ plan project
 
 project :: Project
 project = M.fromList testProject

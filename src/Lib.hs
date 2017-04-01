@@ -24,12 +24,15 @@ newtype Index =
     Index Int
     deriving (Show, Read, Ord, Eq)
 
-plan :: Int -> Int -> Project -> Project
-plan max n project
-    | n == max = project
-    | otherwise = plan max (n+1) $ applyTask task project
+plan :: Project -> Project
+plan project = applyPlan (M.size project) 1 project
     where
-        task = project M.! (Index n)
+        applyPlan :: Int -> Int -> Project -> Project
+        applyPlan max n p
+            | n == max = p
+            | otherwise =
+                let task = p M.! Index n
+                in applyPlan max (n+1) $ applyTask task p
 
 applyTask :: Task -> Project -> Project
 applyTask (Task _ span _ indexes) p = foldr calcSuccessor p indexes
