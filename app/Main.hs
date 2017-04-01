@@ -1,14 +1,15 @@
 module Main where
 
 import Lib
-import qualified Data.Vector as V
+import PrettyPrint
 import qualified Data.Map.Strict as M
 
 main :: IO ()
 main = do
     let result = plan project
     -- putStrLn $ show result
-    putStrLn $ show $ maxSpan result
+    -- putStrLn $ show $ maxSpan result
+    putStrLn $ showProject result
 
 
 project :: Project

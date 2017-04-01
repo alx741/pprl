@@ -5,9 +5,9 @@ module Lib
     , Span
     , plan
     , maxSpan
+    , index
     ) where
 
-import qualified Data.Vector as V
 import qualified Data.Map.Strict as M
 
 type Project = M.Map Index Task
@@ -62,3 +62,6 @@ applyTask (Task _ span _ indexes) p = foldr calcSuccessor p indexes
             (taskSpan task + span)
             (taskResources task)
             (taskSuccessors task)
+
+index :: Index -> Int
+index (Index int) = int
