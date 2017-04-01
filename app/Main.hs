@@ -10,32 +10,6 @@ main :: IO ()
 main = print $ plan (M.size project) 1 project
 
 
-plan :: Int -> Int -> Project -> Project
-plan max n project
-    | n == max = project
-    | otherwise = plan max (n+1) $ applyTask task project
-    where
-        task = project M.! (Index n)
-
-applyTask :: Task -> Project -> Project
-applyTask (Task _ span _ indexes) p = foldr calcSuccessor p indexes
-    where
-        calcSuccessor :: Index -> Project -> Project
-        calcSuccessor index p =
-            let task' = allocateTask (p M.! index) span
-            in M.insert index task' p
-
-        allocateTask :: Task -> Span -> Task
-        allocateTask task@(Task True _ _ _) _ = task
-        allocateTask task span = Task
-            True
-            (taskSpan task + span)
-            (taskResources task)
-            (taskSuccessors task)
-
-
-
-
 project :: Project
 project = M.fromList testProject
 
