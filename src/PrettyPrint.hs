@@ -15,7 +15,7 @@ showTaskDebug i t =
     (show $ getIndex i) ++
     "\n|_________Allocated: " ++ (show $ taskAllocated t) ++ "\n" ++
     "\n|_________Finaliza el día: " ++ (show $ taskSpan t) ++ "\n" ++
-    "\n|_________Recursos necesarios: " ++ (show $ taskResources t) ++ "\n" ++
+    "\n|_________Consumo de recursos: " ++ (show $ taskResources t) ++ "\n" ++
     "\n|_________Successors: " ++ (show $ taskSuccessors t) ++ "\n\n"
 
 showProjectDebug :: Project -> String
@@ -29,9 +29,9 @@ showTask maxRes i t =
     (show $ getIndex i) ++
     "\n|_________Finaliza el día: " ++ (show $ taskSpan t) ++ "\n" ++
     if taskResources t > maxRes
-        then "\n|_________Recursos necesarios: " ++
+        then "\n|_________Consumo de recursos: " ++
             (show $ taskResources t) ++ " -- [!] Conflicto de recursos\n\n"
-        else "\n|_________Recursos necesarios: " ++
+        else "\n|_________Consumo de recursos: " ++
             (show $ taskResources t) ++ "\n\n"
 
 
@@ -68,7 +68,7 @@ showTaskIO maxRes i t = do
     putStrLn $ "|_________Finaliza el día: " ++ (show $ taskSpan t)
     if taskResources t > maxRes
         then do
-            putStr $ "|_________Recursos necesarios: " ++ (show $ taskResources t)
+            putStr $ "|_________Consumo de recursos: " ++ (show $ taskResources t)
             putChunkLn $ chunk "  [!] Conflicto de recursos\n" & fore red
-        else putStrLn $ "|_________Recursos necesarios: " ++
+        else putStrLn $ "|_________Consumo de recursos: " ++
             (show $ taskResources t) ++ "\n"
