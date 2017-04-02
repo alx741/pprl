@@ -1,14 +1,12 @@
 name:                pprl
 version:             0.1.0.0
--- synopsis:
--- description:
-homepage:            https://github.com/githubuser/pprl#readme
+homepage:            https://github.com/alx741/pprl#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2017 Author name here
-category:            Web
+author:              Daniel Campoverde Carrión
+maintainer:          alx@sillybytes.net
+copyright:           2017 Daniel Campoverde Carrión
+category:            Executable
 build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
